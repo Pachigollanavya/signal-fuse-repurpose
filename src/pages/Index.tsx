@@ -95,6 +95,67 @@ const Index = () => {
             { event: "Headache", frequency: "8%" },
             { event: "Dizziness", frequency: "5%" }
           ]
+        },
+        exim: {
+          apiSourceCountries: [
+            { country: "India", volume: "450 MT/year", trend: "Stable" },
+            { country: "China", volume: "280 MT/year", trend: "Growing" },
+            { country: "Italy", volume: "120 MT/year", trend: "Declining" }
+          ],
+          importDependency: "Low (35% domestic production)",
+          exportPotential: "High - API suitable for regulated markets",
+          tradeInsights: [
+            "Strong domestic manufacturing capability reduces supply chain risk",
+            "Export volumes to US growing at 12% annually",
+            "No critical import dependencies identified"
+          ]
+        },
+        internalKnowledge: {
+          documentsSummarized: 5,
+          keyTakeaways: [
+            "Previous market research indicated unmet need in respiratory segment",
+            "Sales team reports growing physician interest in antifibrotic therapies",
+            "Manufacturing capacity available at Hyderabad facility"
+          ],
+          strategicRecommendations: [
+            "Leverage existing distribution network in tier-2 cities",
+            "Partner with leading pulmonologists for clinical validation",
+            "Position as premium generic with clinical differentiation"
+          ],
+          fieldInsights: "Field reports show 40% of respiratory specialists actively seeking new treatment options for IPF patients"
+        },
+        webIntelligence: {
+          guidelines: [
+            {
+              source: "ATS/ERS/JRS/ALAT Clinical Practice Guidelines",
+              summary: "Recommends antifibrotic therapy for confirmed IPF diagnosis",
+              link: "https://www.atsjournals.org/guidelines"
+            },
+            {
+              source: "Indian Chest Society Guidelines",
+              summary: "Early initiation of therapy shown to slow disease progression",
+              link: "https://www.indianchestsociety.org"
+            }
+          ],
+          recentPublications: [
+            {
+              title: "Novel Antifibrotic Mechanisms in Pulmonary Fibrosis",
+              journal: "Nature Medicine",
+              doi: "10.1038/nm.2023.12345",
+              year: "2024"
+            },
+            {
+              title: "Real-world Outcomes in IPF Treatment",
+              journal: "The Lancet Respiratory Medicine",
+              doi: "10.1016/S2213-2600(23)00456-7",
+              year: "2023"
+            }
+          ],
+          newsInsights: [
+            "FDA grants breakthrough designation for new IPF indication",
+            "Growing patient advocacy driving treatment awareness in India",
+            "Telemedicine adoption increasing access to specialty care"
+          ]
         }
       },
       confidence: 0.85,

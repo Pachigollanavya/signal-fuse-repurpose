@@ -8,7 +8,9 @@ import {
   TrendingUp, 
   ShieldAlert,
   ExternalLink,
-  AlertCircle
+  AlertCircle,
+  Globe,
+  BookOpen
 } from "lucide-react";
 
 interface AgentOutputsProps {
@@ -21,7 +23,7 @@ export const AgentOutputs = ({ outputs }: AgentOutputsProps) => {
       <h3 className="text-2xl font-bold mb-6">Worker Agent Outputs</h3>
       
       <Tabs defaultValue="trials" className="w-full">
-        <TabsList className="grid w-full grid-cols-4 h-auto">
+        <TabsList className="grid w-full grid-cols-7 h-auto">
           <TabsTrigger value="trials" className="flex items-center gap-2 py-3">
             <Activity className="h-4 w-4" />
             <span className="hidden sm:inline">Clinical Trials</span>
@@ -32,11 +34,23 @@ export const AgentOutputs = ({ outputs }: AgentOutputsProps) => {
           </TabsTrigger>
           <TabsTrigger value="market" className="flex items-center gap-2 py-3">
             <TrendingUp className="h-4 w-4" />
-            <span className="hidden sm:inline">Market</span>
+            <span className="hidden sm:inline">IQVIA Market</span>
+          </TabsTrigger>
+          <TabsTrigger value="exim" className="flex items-center gap-2 py-3">
+            <TrendingUp className="h-4 w-4" />
+            <span className="hidden sm:inline">EXIM</span>
           </TabsTrigger>
           <TabsTrigger value="safety" className="flex items-center gap-2 py-3">
             <ShieldAlert className="h-4 w-4" />
             <span className="hidden sm:inline">Safety</span>
+          </TabsTrigger>
+          <TabsTrigger value="internal" className="flex items-center gap-2 py-3">
+            <FileText className="h-4 w-4" />
+            <span className="hidden sm:inline">Internal</span>
+          </TabsTrigger>
+          <TabsTrigger value="web" className="flex items-center gap-2 py-3">
+            <ExternalLink className="h-4 w-4" />
+            <span className="hidden sm:inline">Web Intel</span>
           </TabsTrigger>
         </TabsList>
 
@@ -213,6 +227,169 @@ export const AgentOutputs = ({ outputs }: AgentOutputsProps) => {
               </div>
             </div>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="exim" className="mt-6">
+          <div className="space-y-6">
+            <Card className="p-6">
+              <h4 className="font-semibold mb-4">API Source Countries</h4>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-muted">
+                    <tr>
+                      <th className="text-left p-3 font-semibold">Country</th>
+                      <th className="text-left p-3 font-semibold">Volume</th>
+                      <th className="text-left p-3 font-semibold">Trend</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {outputs.exim.apiSourceCountries.map((source, idx) => (
+                      <tr key={idx} className="border-t">
+                        <td className="p-3 font-medium">{source.country}</td>
+                        <td className="p-3">{source.volume}</td>
+                        <td className="p-3">
+                          <Badge className={
+                            source.trend === "Growing" ? "bg-success" :
+                            source.trend === "Stable" ? "bg-primary" :
+                            "bg-warning"
+                          }>
+                            {source.trend}
+                          </Badge>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Card>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="p-6">
+                <h4 className="font-semibold mb-3">Import Dependency</h4>
+                <p className="text-2xl font-bold text-success mb-2">{outputs.exim.importDependency}</p>
+                <h4 className="font-semibold mb-3 mt-4">Export Potential</h4>
+                <p className="text-lg font-semibold text-primary">{outputs.exim.exportPotential}</p>
+              </Card>
+
+              <Card className="p-6">
+                <h4 className="font-semibold mb-3">Trade Insights</h4>
+                <ul className="space-y-2">
+                  {outputs.exim.tradeInsights.map((insight, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-sm">
+                      <span className="text-primary mt-1">•</span>
+                      <span>{insight}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="internal" className="mt-6">
+          <div className="space-y-6">
+            <Card className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="font-semibold flex items-center gap-2">
+                  <BookOpen className="h-5 w-5 text-primary" />
+                  Internal Documents Summary
+                </h4>
+                <Badge variant="outline">{outputs.internalKnowledge.documentsSummarized} documents analyzed</Badge>
+              </div>
+              <p className="text-muted-foreground mb-4">{outputs.internalKnowledge.fieldInsights}</p>
+            </Card>
+
+            <Card className="p-6">
+              <h4 className="font-semibold mb-4">Key Takeaways</h4>
+              <div className="space-y-3">
+                {outputs.internalKnowledge.keyTakeaways.map((takeaway, idx) => (
+                  <div key={idx} className="flex items-start gap-3 p-3 rounded-lg bg-muted">
+                    <div className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold flex-shrink-0">
+                      {idx + 1}
+                    </div>
+                    <p className="text-sm">{takeaway}</p>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            <Card className="p-6">
+              <h4 className="font-semibold mb-4">Strategic Recommendations</h4>
+              <div className="space-y-2">
+                {outputs.internalKnowledge.strategicRecommendations.map((rec, idx) => (
+                  <div key={idx} className="flex items-start gap-2 p-3 rounded-lg border-l-4 border-primary bg-primary/5">
+                    <AlertCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                    <p className="text-sm font-medium">{rec}</p>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="web" className="mt-6">
+          <div className="space-y-6">
+            <Card className="p-6">
+              <h4 className="font-semibold mb-4 flex items-center gap-2">
+                <Globe className="h-5 w-5 text-primary" />
+                Clinical Practice Guidelines
+              </h4>
+              <div className="space-y-4">
+                {outputs.webIntelligence.guidelines.map((guideline, idx) => (
+                  <div key={idx} className="p-4 rounded-lg bg-muted">
+                    <div className="flex items-start justify-between mb-2">
+                      <h5 className="font-semibold">{guideline.source}</h5>
+                      <a 
+                        href={guideline.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline flex items-center gap-1 text-sm"
+                      >
+                        View
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{guideline.summary}</p>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            <Card className="p-6">
+              <h4 className="font-semibold mb-4">Recent Scientific Publications</h4>
+              <div className="space-y-3">
+                {outputs.webIntelligence.recentPublications.map((pub, idx) => (
+                  <div key={idx} className="p-4 rounded-lg border">
+                    <div className="flex items-start justify-between mb-1">
+                      <h5 className="font-semibold text-sm">{pub.title}</h5>
+                      <Badge variant="outline">{pub.year}</Badge>
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-2">{pub.journal}</p>
+                    <a 
+                      href={`https://doi.org/${pub.doi}`}
+                      target="_blank"
+                      rel="noopener noreferrer" 
+                      className="text-xs text-primary hover:underline font-mono"
+                    >
+                      DOI: {pub.doi}
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            <Card className="p-6">
+              <h4 className="font-semibold mb-4">News & Market Insights</h4>
+              <div className="space-y-2">
+                {outputs.webIntelligence.newsInsights.map((news, idx) => (
+                  <div key={idx} className="flex items-start gap-2 p-3 rounded-lg bg-accent/10">
+                    <span className="text-accent mt-1">▪</span>
+                    <p className="text-sm">{news}</p>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
         </TabsContent>
       </Tabs>
     </div>
